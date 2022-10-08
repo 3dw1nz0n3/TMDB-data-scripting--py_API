@@ -79,17 +79,9 @@ highest_revenue_ever_df = pd.DataFrame(columns=columns)
 for film in top10000_movies:
     # print(film['title'])
 
-    film_revenue = requests.get('https://api.themoviedb.org/3/movie/'+ str(film['id']) +'?api_key='+ api_key+'&language=en-US')
-    film_revenue = film_revenue.json()
-    # print(film_revenue)
-
-    # print(locale.currency(film_revenue['revenue'], grouping=True ))
-
-    # Lord of the Rings duplicate w/ bad data was being returned  https://www.themoviedb.org/movie/454499-the-lord-of-the-rings
-
-        # print(film_revenue['budget'])
-        # add film title, revenue, budget and release date to the dataframe
-    highest_revenue_ever_df.loc[len(highest_revenue_ever_df)]=[film['title'],film_revenue['revenue'],(film_revenue['budget']),film_revenue['release_date'],film_revenue['genres'],film_revenue['production_companies'],film_revenue['original_language'],film_revenue['adult'],film_revenue['runtime'],film_revenue['tagline'],film_revenue['vote_average'],film_revenue['vote_count'],film_revenue['popularity']]
+    film_popular = requests.get('https://api.themoviedb.org/3/movie/'+ str(film['id']) +'?api_key='+ api_key+'&language=en-US')
+    film_popular = film_popular.json()
+    film_popular_df.loc[len(film_popular_df)]=[film['title'],film_popular['revenue'],(film_popular['budget']),film_popular['release_date'],film_popular['genres'],film_popular['production_companies'],film_popular['original_language'],film_popular['adult'],film_popular['runtime'],film_popular['tagline'],film_popular['vote_average'],film_popular['vote_count'],film_popular['popularity']]
     
-highest_revenue_ever_df.head()    
-highest_revenue_ever_df.to_csv('movie_10K.csv')
+film_popular_df.head()    
+film_popular_df.to_csv('movie_10K.csv')
