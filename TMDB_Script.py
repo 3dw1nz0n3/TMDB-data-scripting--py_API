@@ -1,20 +1,17 @@
-import config # to hide TMDB API keys
 import requests # to make TMDB API calls
 import locale # to format currency as USD
-locale.setlocale( locale.LC_ALL, '' )
-import os
-import pandas as pd
 import tmdbsimple as tmdb
-import matplotlib
-import matplotlib.pyplot as plt
-from matplotlib.ticker import FuncFormatter # to format currency on charts axis
+locale.setlocale( locale.LC_ALL, '' )
+import pandas as pd
+import pickle
 
 api_key = 'Your Key' # get TMDB API key from config.py file
-import tmdbsimple as tmdb
 
+import tmdbsimple as tmdb
 tmdb.API_KEY = api_key #This sets the API key setting for the tmdb object
 search = tmdb.Search() #this instantiates a tmdb "search" object which allows your to search for the movie
 import os.path
+
 # These functions take in a string movie name !
 def grab_poster_tmdb(movie):
     
@@ -75,11 +72,11 @@ f3=open('movie_list_full.pckl','wb')
 pickle.dump(top10000_movies,f3)
 f3.close()
 print('Done!')
-# Now we got the top 500 movie by popularity
+# Now we got the top 10000 movie by popularity
 columns = ['film', 'revenue', 'budget', 'release_date','genres','production_companies','original_language','adult','runtime','tagline','vote_average','vote_count','popularity']
 highest_revenue_ever_df = pd.DataFrame(columns=columns)
 
-for film in top1000_movies:
+for film in top10000_movies:
     # print(film['title'])
 
     film_revenue = requests.get('https://api.themoviedb.org/3/movie/'+ str(film['id']) +'?api_key='+ api_key+'&language=en-US')
