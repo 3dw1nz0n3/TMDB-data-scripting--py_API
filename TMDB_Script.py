@@ -99,3 +99,16 @@ film_popular_df.head()
 
 #df save to csv file 
 film_popular_df.to_csv('movie_10K.csv')
+
+# Based on 'All the Movie information from TMDB gets stored in a dictionary with the following keys for easy access -' we can modify our search result
+columns = ['film', 'keywords'] ## we can also search the Keywords , basically we can change ever seach targe as long as we have the link for the search
+film_popular_df = pd.DataFrame(columns=columns)
+
+for film in top10000_movies:
+    # print(film['title'])
+
+    film_popular = requests.get('https://api.themoviedb.org/3/movie/'+ str(film['id']) +'/keywords'+'?api_key='+ api_key)
+    film_popular = film_popular.json()
+    film_popular_df.loc[len(film_popular_df)]=[film['title'],film_popular['keywords']]
+    
+film_popular_df.head(80)    
